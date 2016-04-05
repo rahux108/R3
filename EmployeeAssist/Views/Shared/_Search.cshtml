@@ -1,0 +1,55 @@
+﻿@model EmployeeAssist.Models.ReaderViewModel
+
+<fieldset class="form-group ">
+    <div class="col-sm-12">
+        @*<label for="ddCountry">Country</label>*@
+        @Html.LabelFor(model => model.Country)
+
+        @Html.DropDownListFor(m => m.Country,
+             new SelectList(Model.CountryOptions, "id", "value", Model.CountryOptions.FirstOrDefault().id), new { @class = "form-control", @id = "ddCountry" })
+        @*<select name="Country" class="form-control" id="ddCountry">
+              <option>United States</option>
+            </select>*@
+    </div>
+</fieldset>
+<fieldset class="form-group">
+    <div class="row col-sm-6">
+        <div class="col-sm-12">
+            @Html.LabelFor(model => model.State)
+            <label for="ddState">State</label>
+            <select name="State" class="form-control" id="ddState">
+                @*  <option>Florida</option>*@
+            </select>
+        </div>
+    </div>
+    <div class="row col-sm-6 col-sm-offset-0">
+        <div class="col-sm-12 col-sm-offset-0">
+            @Html.LabelFor(model => model.City)
+            <select name="City" class="form-control" id="ddCity">
+                @*<option>St Petersburg</option>*@
+            </select>
+        </div>
+    </div>
+</fieldset>
+<fieldset class="form-group">
+    <div class="row col-sm-6">
+        <div class="col-sm-12">
+            @Html.LabelFor(model => model.Category)
+            @Html.DropDownListFor(m => m.Category,
+                                    new SelectList(Model.CategoryOptions, "id", "value", Model.CategoryOptions.FirstOrDefault().id), new { @class = "form-control", @id = "ddCategory" })
+            @*<select name="Category" class="form-control" id="ddCategory">
+                    <option>Accomodation</option>
+                </select>*@
+        </div>
+    </div>
+    <div class="row col-sm-6 col-sm-offset-0">
+        <div class="col-sm-12 ">
+            @Html.LabelFor(model => model.SubCategory)
+            <select name="SubCategory" class="form-control" id="ddSubCategory" type="text">
+                @*<option>Apartment Sharing</option>*@
+            </select>
+
+        </div>
+    </div>
+</fieldset>
+

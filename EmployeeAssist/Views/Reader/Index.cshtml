@@ -1,0 +1,16 @@
+﻿@model EmployeeAssist.Models.ReaderViewModel
+
+@{ 
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+        <div>
+            <div class="well bs-component">
+                <form role="form">
+                    @Html.Partial("_Search",Model)
+                    <fieldset class="form-group"></fieldset>
+                    <center>
+                        <input class="btn btn-primary" type="submit" value="Search">
+                    </center>
+                </form>
+            </div>
+        </div>
