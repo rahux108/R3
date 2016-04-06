@@ -16,7 +16,7 @@
             @Html.LabelFor(model => model.State)
 
             @Html.DropDownListFor(m => m.State,
-       new SelectList(Model.StateOptions, "id", "value", Model.StateOptions.FirstOrDefault().id), new { @class = "form-control ", @id = "ddState" });
+       new SelectList(Model.StateOptions, "id", "value", Model.StateOptions.FirstOrDefault().id), new { @class = "form-control ", @id = "ddState" })
 
 
         </div>
