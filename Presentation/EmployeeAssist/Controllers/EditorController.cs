@@ -10,29 +10,31 @@ namespace EmployeeAssist.Controllers
 {
     public class EditorController : Controller
     {
+
+        List<ListItem> defaultListItem = new List<ListItem>() { new ListItem() { id = "", value = "select" } };
         // GET: Search
         public ActionResult Index()
         {
-            return View(new ReaderViewModel()
+            var repo = new GeoRepository();
+
+            var model = new ReaderViewModel()
             {
 
-                CountryOptions = new List<ListItem>()
-                {
-                    new ListItem {id="",value="" },
-                    new ListItem { id="UnitedStates", value="UnitedStates" },
-                     new ListItem { id="NewZealand", value="NewZealand" }
-                },
-                StateOptions = new List<ListItem>(),
-                CityOptions = new List<ListItem>(),
+                CountryOptions = repo.GetCountries(),
+                StateOptions = defaultListItem,
+                CityOptions = defaultListItem,
+
                 CategoryOptions = new List<ListItem>()
                 {
                     new ListItem {id="",value="" },
                     new ListItem { id="Accomodation",value="Accomodation"},
                     new ListItem { id="Allowances",value="Allowances"}
                 },
-                SubCategoryOptions = new List<ListItem>()
-            });
-        }
+                SubCategoryOptions = defaultListItem
+            };
 
+            return View(model);
+
+        }
     }
 }

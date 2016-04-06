@@ -10,33 +10,43 @@ namespace EmployeeAssist.Controllers
 {
     public class ReaderController : Controller
     {
+
+        List<ListItem> defaultListItem = new List<ListItem>() { new ListItem() { id = "", value = "select" } };
         // GET: Search
         public ActionResult Index()
         {
-            return View(new ReaderViewModel()
+
+            var repo = new GeoRepository();
+    
+            var model = new ReaderViewModel()
             {
 
-                CountryOptions = new List<ListItem>()
-                {
-                    new ListItem {id="",value="" },
-                    new ListItem { id="UnitedStates", value="UnitedStates" },
-                     new ListItem { id="NewZealand", value="NewZealand" }
-                },
-                StateOptions = new List<ListItem>(),
-                CityOptions = new List<ListItem>(),
+                CountryOptions = repo.GetCountries(),
+                StateOptions = defaultListItem,
+                CityOptions = defaultListItem,
+
                 CategoryOptions = new List<ListItem>()
                 {
                     new ListItem {id="",value="" },
                     new ListItem { id="Accomodation",value="Accomodation"},
                     new ListItem { id="Allowances",value="Allowances"}
                 },
-                SubCategoryOptions = new List<ListItem>()
-            });
+                SubCategoryOptions = defaultListItem
+            };
+
+            return View(model);
         }
 
         [HttpPost]
         public ActionResult Index(ReaderViewModel model)
         {
+            var repo = new GeoRepository();
+
+            model.CountryOptions = repo.GetCountries();
+            model.StateOptions = (!string.IsNullOrWhiteSpace(model.Country)) ? repo.GetStates(model.Country) : defaultListItem;
+            model.CityOptions = (!string.IsNullOrWhiteSpace(model.State)) ? repo.GetCities(model.State) : defaultListItem;
+            model.CategoryOptions = defaultListItem;
+            model.SubCategoryOptions = defaultListItem;
             return View(model);
         }
 
@@ -47,13 +57,15 @@ namespace EmployeeAssist.Controllers
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             //mock
 
-            result.Data = new List<ListItem>()
-            {
-                new ListItem {id="",value="" },
-               new ListItem { id="Florida",value="Florida"},
-               new ListItem { id= "Georgia",value="Georgia" },
-               new ListItem { id = "North Carolina", value= "North Carolina" },
-            };
+            //result.Data = new List<ListItem>()
+            //{
+            //    new ListItem {id="",value="" },
+            //   new ListItem { id="Florida",value="Florida"},
+            //   new ListItem { id= "Georgia",value="Georgia" },
+            //   new ListItem { id = "North Carolina", value= "North Carolina" },
+            //};
+            var repo = new GeoRepository();
+            result.Data = repo.GetStates(country);
             return result;
         }
 
@@ -62,33 +74,37 @@ namespace EmployeeAssist.Controllers
         {
             var result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            //mock
-            if (state.Equals("Florida", StringComparison.InvariantCultureIgnoreCase))
-            {
-                result.Data = new List<ListItem>()
-                {
-                    new ListItem {id="",value="" },
-                   new ListItem { id="St Pete",value="St Pete"},
-                   new ListItem { id= "JacksonVille",value="JacksonVille" },
-                };
-            }
-            if (state.Equals("Georgia", StringComparison.InvariantCultureIgnoreCase))
-            {
-                result.Data = new List<ListItem>()
-                {
-                    new ListItem {id="",value="" },
-                   new ListItem { id="Atlanta",value="Atlanta"},
-                   new ListItem { id= "Alpharetta",value="Alpharetta" },
-                };
-            }
-            if (state.Equals("North Carolina", StringComparison.InvariantCultureIgnoreCase))
-            {
-                result.Data = new List<ListItem>()
-                {
-                    new ListItem {id="",value="" },
-                   new ListItem { id="Charlotte",value="Charlotte"},
-                };
-            }
+            ////mock
+            //if (state.Equals("Florida", StringComparison.InvariantCultureIgnoreCase))
+            //{
+            //    result.Data = new List<ListItem>()
+            //    {
+            //        new ListItem {id="",value="" },
+            //       new ListItem { id="St Pete",value="St Pete"},
+            //       new ListItem { id= "JacksonVille",value="JacksonVille" },
+            //    };
+            //}
+            //if (state.Equals("Georgia", StringComparison.InvariantCultureIgnoreCase))
+            //{
+            //    result.Data = new List<ListItem>()
+            //    {
+            //        new ListItem {id="",value="" },
+            //       new ListItem { id="Atlanta",value="Atlanta"},
+            //       new ListItem { id= "Alpharetta",value="Alpharetta" },
+            //    };
+            //}
+            //if (state.Equals("North Carolina", StringComparison.InvariantCultureIgnoreCase))
+            //{
+            //    result.Data = new List<ListItem>()
+            //    {
+            //        new ListItem {id="",value="" },
+            //       new ListItem { id="Charlotte",value="Charlotte"},
+            //    };
+            //}
+            //return result;
+
+            var repo = new GeoRepository();
+            result.Data = repo.GetCities(state);
             return result;
 
         }
